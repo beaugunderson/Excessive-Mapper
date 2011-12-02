@@ -1,24 +1,43 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-
-<head>
-
+ <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-  <title>Test Viewer</title>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+  <title>Excessive Mapper</title>
 
   <style type="text/css">
-    @import url("css/reset.css");
+   @import url("css/reset.css");
+
+   body, html {
+    height: 100%;
+   }
+
+   body {
+    margin: 0;
+    padding: 0;
+   }
+
+   #map {
+    height: 100%;
+    width: 100%;
+   }
   </style>
+ </head>
 
-</head>
+ <body>
+  <div id="map"></div>
+ </body>
 
-<body>
-  <h1>Test Viewer</h1>
-  <div id="test"></div>
-</body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-<script src="js/script.js"></script>
-<script src='js/config.js'></script> <!-- optional, used for file:/// desktop development convenience -->
-<script src='/static/js/viewer.js'></script> <!-- common locker viewer utilities -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+ <script src="http://maps.google.com/maps/api/js?sensor=true"></script> 
+
+ <script src='js/underscore.js'></script> <!-- common locker viewer utilities -->
+ <script src='js/moment.js'></script> <!-- common locker viewer utilities -->
+ <script src='js/sprintf.js'></script> <!-- optional, used for file:/// desktop development convenience -->
+ <script src="js/script.js"></script>
+ <script src='js/config.js'></script> <!-- optional, used for file:/// desktop development convenience -->
+
+ <script src='/static/js/viewer.js'></script> <!-- common locker viewer utilities -->
 </html>
