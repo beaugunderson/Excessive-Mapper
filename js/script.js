@@ -185,11 +185,13 @@ function hex(c) {
 
 /* Convert an RGB triplet to a hex string */
 function convertToHex (rgb) {
-   return hex(rgb[0]) + hex(rgb[1]) + hex(rgb[2]);
+   return '#' + hex(rgb[0]) + hex(rgb[1]) + hex(rgb[2]);
 }
 
 /* Remove '#' in color hex string */
-function trim (s) { return (s.charAt(0) == '#') ? s.substring(1, 7) : s }
+function trim (s) {
+   return (s.charAt(0) == '#') ? s.substring(1, 7) : s;
+}
 
 /* Convert a hex string to an RGB triplet */
 function convertToRGB(hex) {
