@@ -91,11 +91,11 @@ var simpleMapStyle = [
   }
 ];
 
-$(document).ready(function() {
-   if(baseUrl === false) window.alert("Couldn't find your locker, you might need to add a config.js (see https://me.singly.com/Me/devdocs/)");
-});
-
 $(function() {
+   if (baseUrl === false) {
+      window.alert("Couldn't find your locker, you might need to add a config.js (see https://me.singly.com/Me/devdocs/)");
+   }
+
    var url = baseUrl + '/Me/places/';
 
    $('#url').html('<a href="' + url + '">' + url + '</a>');
@@ -127,7 +127,7 @@ $(function() {
       navigator.geolocation.getCurrentPosition(function(position) {
          initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
-         process_location_dependent_apis(initialLocation);
+         locationReceived(initialLocation);
       }, function() {
          handleNoGeolocation(browserSupportFlag);
       });
@@ -138,7 +138,7 @@ $(function() {
    }
 
    function handleNoGeolocation(errorFlag) {
-      process_location_dependent_apis(initialLocation);
+      locationReceived(initialLocation);
 
       //var swBound = new google.maps.LatLng(output.min_lat, output.min_lon);
       //var neBound = new google.maps.LatLng(output.max_lat, output.max_lon);
@@ -242,11 +242,8 @@ function addLines(data) {
    });
 }
 
-function process_location_dependent_apis(loc) {
+function locationReceived(loc) {
    map.setCenter(loc);
-
-   /* Last.fm */
-   last_fm_events(loc);
 }
 
 function add_marker(item) {
@@ -273,66 +270,5 @@ function add_marker(item) {
       icon: sprintf("img/icons/%s-icon.png", item.network),
       title: title,
       map: map
-   });
-}
-
-function last_fm_events(center) {
-   var LAST_FM_API_KEY = "7c54e029ae58a00acb284990211777c7";
-
-   $.ajax({
-      url: "/last-fm/?method=geo.getEvents",
-      data: {
-         limit: 50,
-         lat: center.lat(),
-         long: center.lng(),
-         format: 'json',
-         api_key: LAST_FM_API_KEY
-      },
-      success: function (data, text_status, request) {
-         //console.log("last_fm_events", data);
-
-         data.events.event.forEach(function (e, a, i) {
-            var lat = e.venue.location['geo:point']['geo:lat'];
-            var lng = e.venue.location['geo:point']['geo:long'];
-
-            var point = new google.maps.LatLng(lat, lng);
-
-            var marker = new google.maps.Marker({
-               position: point,
-               icon: "icons/last-fm-icon.png",
-               title: e.title + " at " + e.venue.name,
-               map: map
-            });
-         });
-      }
-   });
-}
-
-function blockchalk_chalks(loc) {
-   $.ajax({
-      //url: "http://blockchalk.com/api/v0.6/chalks",
-      url: "/blockchalk/chalks",
-      dataType: "json",
-      data: {
-         lat: loc.lat(),
-         long: loc.lng(),
-         consumer: 'blockchalk-social-map',
-         format: 'json'
-      },
-      success: function(data, text_status, request) {
-         //console.log("blockchalk_chalks", data);
-
-         data.forEach(function (e, a, i) {
-            var point = new google.maps.LatLng(e.coordinates.lat, e.coordinates.long);
-
-            var marker = new google.maps.Marker({
-               position: point,
-               icon: "icons/blockchalk-icon.png",
-               title: e.contents,
-               map: map
-            });
-         });
-      },
-      error: ajax_error
    });
 }
