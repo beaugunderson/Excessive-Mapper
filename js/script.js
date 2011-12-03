@@ -152,12 +152,13 @@ $(function() {
       first = data[0].at;
       last = data[data.length - 1].at;
 
-      console.log(first, last);
-
+      // Only get our checkins
+      // XXX: Will be uncessary at some point when the API changes
       data = _.filter(data, function(item) {
          return item.me === true;
       });
 
+      // Filter out bad locations
       data = _.reject(data, function(item) {
          return item.lat === 0 &&
             item.lng === 0;
@@ -220,16 +221,11 @@ function addLines(data) {
    _.each(data, function(item, index, list) {
       var currentCoordinate = new google.maps.LatLng(item.lat, item.lng);
 
-      console.log(currentCoordinate, item.lat, item.lng);
-
       if (lastCoordinate != null) {
          var coordinates = [
             lastCoordinate,
             currentCoordinate
          ];
-
-         //console.log(coordinates);
-         console.log(last - first, last - item.at);
 
          var userPath = new google.maps.Polyline({
             path: coordinates,
