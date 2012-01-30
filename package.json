@@ -1,0 +1,31 @@
+{
+  "author": "Beau Gunderson <beau@beaugunderson.com>",
+  "name": "Excessive-Mapper",
+  "description": "An excessively detailed place mapper",
+  "version": "0.0.1",
+  "repository": {
+    "title": "Excessive-Mapper",
+    "handle": "excessive-mapper",
+    "update": true,
+    "static": true,
+    "homepage": "https://github.com/beaugunderson/Excessive-Mapper",
+    "github": "https://github.com/beaugunderson/Excessive-Mapper",
+    "type": "app",
+    "uses": {
+      "services": [
+        "facebook",
+        "twitter",
+        "foursquare"
+      ],
+      "types": [
+        "places"
+      ]
+    },
+    "url": ""
+  },
+  "engines": {
+    "node": ">=0.4.9"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
