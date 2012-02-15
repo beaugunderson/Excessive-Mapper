@@ -98,8 +98,6 @@ $(function() {
 
    var url = baseUrl + '/Me/places/';
 
-   $('#url').html('<a href="' + url + '">' + url + '</a>');
-
    /* Map setup */
    initialLocation = google.maps.LatLng(38.6, -98.0);
 
@@ -149,6 +147,14 @@ $(function() {
    }
 
    $.getJSON(url, { 'limit': 1000, 'sort': 'at', 'order': 1 }, function(data) {
+      if (data.length === 0 ||
+         data === undefined) {
+         $('#error').show();
+         $('#error-text').text(data);
+
+         return;
+      }
+
       first = data[0].at;
       last = data[data.length - 1].at;
 
@@ -185,12 +191,12 @@ function hex(c) {
 }
 
 /* Convert an RGB triplet to a hex string */
-function convertToHex (rgb) {
+function convertToHex(rgb) {
    return '#' + hex(rgb[0]) + hex(rgb[1]) + hex(rgb[2]);
 }
 
 /* Remove '#' in color hex string */
-function trim (s) {
+function trim(s) {
    return (s.charAt(0) == '#') ? s.substring(1, 7) : s;
 }
 
