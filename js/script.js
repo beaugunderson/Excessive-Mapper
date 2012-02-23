@@ -173,7 +173,7 @@ $(function() {
       addLines(data);
 
       _.each(data, function(item, index, list) {
-         add_marker(item);
+         addMarker(item);
       });
    });
 });
@@ -249,10 +249,13 @@ function addLines(data) {
 }
 
 function locationReceived(loc) {
-   map.setCenter(loc);
+   if (loc.lat !== undefined &&
+      loc.lng !== undefined) {
+      map.setCenter(loc);
+   }
 }
 
-function add_marker(item) {
+function addMarker(item) {
    var point = new google.maps.LatLng(
       item.lat,
       item.lng);
