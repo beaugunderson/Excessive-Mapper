@@ -9,39 +9,17 @@
 
   <style type="text/css">
    @import url("css/reset.css");
+   @import url("css/excessive-mapper.css");
 
-   body, html {
-    height: 100%;
-   }
-
-   body {
-    margin: 0;
-    padding: 0;
-   }
-
-   #map {
-    height: 100%;
-    width: 100%;
-   }
-
-   #error {
-    position: absolute;
-    background-color: #ccc;
-    border-radius: 1em;
-    padding: 1em;
-    top: 100px;
-    left: 200px;
-    width: 600px;
-   }
-
-   #error p {
-    margin-bottom: 1em;
-   }
   </style>
  </head>
 
  <body>
   <div id="map"></div>
+
+  <div id="controls">
+   <label><input id="show-markers" type="checkbox" checked="checked" /> Show markers</label>
+  </div>
 
   <div id="error" style="display: none;">
    <p>An error occurred. Are you sure you've authorized a connector that provides location data, like Foursquare?</p>

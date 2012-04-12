@@ -11,6 +11,8 @@ var end = convertToRGB('#00ff00');
 var first;
 var last;
 
+var markers = [];
+
 var simpleMapStyle = [
   {
     featureType: "road.highway",
@@ -96,8 +98,6 @@ $(function() {
       window.alert("Couldn't find your locker, you might need to add a config.js (see https://me.singly.com/Me/devdocs/)");
    }
 
-   var url = baseUrl + '/Me/places/';
-
    /* Map setup */
    initialLocation = google.maps.LatLng(38.6, -98.0);
 
@@ -120,22 +120,27 @@ $(function() {
 
    /* Get the user's location */
    if (navigator.geolocation) {
-      browserSupportFlag = true;
+      var location_timeout = setTimeout(handleNoGeolocation, 5000);
 
       navigator.geolocation.getCurrentPosition(function(position) {
+         clearTimeout(location_timeout);
+
          initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
          locationReceived(initialLocation);
-      }, function() {
-         handleNoGeolocation(browserSupportFlag);
+      }, function(error) {
+         clearTimeout(location_timeout);
+
+         handleNoGeolocation();
+      },
+      {
+         timeout: 5000
       });
    } else {
-      browserSupportFlag = false;
-
-      handleNoGeolocation(browserSupportFlag);
+      handleNoGeolocation();
    }
 
-   function handleNoGeolocation(errorFlag) {
+   function handleNoGeolocation() {
       locationReceived(initialLocation);
 
       //var swBound = new google.maps.LatLng(output.min_lat, output.min_lon);
@@ -145,6 +150,19 @@ $(function() {
 
       //map.fitBounds(bounds);
    }
+
+   $('#show-markers').click(function() {
+      var i;
+      var visible = $('#show-markers').is(':checked');
+
+      for (i = 0; i < markers.length; i++) {
+         markers[i].setVisible(visible);
+      }
+   });
+});
+
+function mapCheckins() {
+   var url = baseUrl + '/Me/places/';
 
    $.getJSON(url, { 'limit': 1000, 'sort': 'at', 'order': 1 }, function(data) {
       if (data.length === 0 ||
@@ -176,7 +194,7 @@ $(function() {
          addMarker(item);
       });
    });
-});
+}
 
 function hex(c) {
    var s = "0123456789abcdef";
@@ -226,6 +244,10 @@ var lastCoordinate = null;
 
 function addLines(data) {
    _.each(data, function(item, index, list) {
+      if (item.network === 'twitter') {
+         return;
+      }
+
       var currentCoordinate = new google.maps.LatLng(item.lat, item.lng);
 
       if (lastCoordinate !== null) {
@@ -255,9 +277,17 @@ function locationReceived(loc) {
       loc.lng !== undefined) {
       map.setCenter(loc);
    }
+
+   mapCheckins();
 }
 
 function addMarker(item) {
+   // XXX Temporarily disable Twitter since the
+   // accuracy is so low
+   if (item.network === 'twitter') {
+      return;
+   }
+
    var point = new google.maps.LatLng(
       item.lat,
       item.lng);
@@ -282,4 +312,6 @@ function addMarker(item) {
       title: title,
       map: map
    });
+
+   markers.push(marker);
 }
