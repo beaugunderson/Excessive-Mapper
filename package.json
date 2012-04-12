@@ -2,11 +2,14 @@
   "name": "Excessive Mapper",
   "author": "Beau Gunderson <beau@beaugunderson.com>",
   "description": "An excessively detailed place mapper",
-  "version": "0.1.0",
+  "version": "0.2.0",
+  "licenses": [{
+    "type": "MIT",
+    "url": "http://creativecommons.org/licenses/MIT/"
+  }],
   "repository": {
     "title": "Excessive Mapper",
     "handle": "excessive-mapper",
-    "update": true,
     "static": true,
     "homepage": "https://github.com/beaugunderson/Excessive-Mapper",
     "github": "https://github.com/beaugunderson/Excessive-Mapper",

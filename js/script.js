@@ -3,7 +3,7 @@ var baseUrl = false;
 var map;
 
 var initialLocation;
-var browserSupportFlag = new Boolean();
+var browserSupportFlag = false;
 
 var start = convertToRGB('#ff0000');
 var end = convertToRGB('#00ff00');
@@ -180,10 +180,11 @@ $(function() {
 
 function hex(c) {
    var s = "0123456789abcdef";
-   var i = parseInt(c);
+   var i = parseInt(c, 10);
 
-   if (i == 0 || isNaN(c))
+   if (i === 0 || isNaN(c)) {
       return "00";
+   }
 
    i = Math.round (Math.min (Math.max (0, i), 255));
 
@@ -197,7 +198,7 @@ function convertToHex(rgb) {
 
 /* Remove '#' in color hex string */
 function trim(s) {
-   return (s.charAt(0) == '#') ? s.substring(1, 7) : s;
+   return (s.charAt(0) === '#') ? s.substring(1, 7) : s;
 }
 
 /* Convert a hex string to an RGB triplet */
@@ -227,7 +228,7 @@ function addLines(data) {
    _.each(data, function(item, index, list) {
       var currentCoordinate = new google.maps.LatLng(item.lat, item.lng);
 
-      if (lastCoordinate != null) {
+      if (lastCoordinate !== null) {
          var coordinates = [
             lastCoordinate,
             currentCoordinate
@@ -249,7 +250,8 @@ function addLines(data) {
 }
 
 function locationReceived(loc) {
-   if (loc.lat !== undefined &&
+   if (loc !== undefined &&
+      loc.lat !== undefined &&
       loc.lng !== undefined) {
       map.setCenter(loc);
    }
